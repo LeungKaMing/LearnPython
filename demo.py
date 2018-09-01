@@ -1,5 +1,25 @@
 #!/usr/bin/python
 #-*- coding:UTF-8 -*
+import math
+
+def my_abs (x):
+  if not isinstance(x, (int, float)):
+    raise TypeError('您输入的数据类型不符合整型和浮点型，请重新输入')
+  if x > 0:
+    print(x)
+  elif x < 0:
+    x = abs(x)
+    print(x)
+  else:
+    # 还没想好要做什么，先留个占位符
+    pass
+  return x
+
+def move (x, y, step, angle=0):
+  nx = x + step * math.cos(angle)
+  ny = y - step * math.sin(angle)
+  return nx, ny
+
 userInput = input('请输入：')
 if userInput == 'admin':
   print('欢迎您，管理员！')
@@ -21,6 +41,7 @@ elif userInput == 'cal':
   print('sum: ', sum)
 elif userInput == 'list':
   list = ['Michael', 'Jack', 'Bob', 'Tracy', 'Adam']
+  print('Jack' in list, '<<<<<<<<<<')
   list.append('Skr')
   bobIndex = 2
   nameInput = input('Enter ur name, then u will line up before Bob...')
@@ -32,6 +53,8 @@ elif userInput == 'list':
   print('I hate Bob I will delete him from the list')
   list.remove('Bob')
   print('Now the line becomes: ', list, ' and its length becomes: ', len(list))
+  list.sort()
+  print('Gonna sort the line：', list)
 elif userInput == 'tuple':
   tuple = (['javascript', 'nodejs'], 'python')
   print('Now u have this tuple: ', tuple)
@@ -108,13 +131,42 @@ elif userInput == 'dict':
   result2 = dict.get(name2, 'undefined user')
   print('通过dict.get来判断该x是否是字典的key，为None则输出第二个参数默认值', result2)
   condition = input('everybody hates Jacob?')
-  if condition == True:
+  if condition == 'yes':
     dict.pop('Jacob')
     print('Jacob is gone now: ', dict)
 elif userInput == 'set':
   # set集合里面是不存在重复项的，所以可以将list借set()方法来做去重
   # 将去重后的list用list()方法强转回来，就实现了一次数组去重
-  set = set([1,1,3,4,7,7])
-  print('Now set becomes: ', set, ' and now becomes list: ', list(set))
+  set1 = set([1,1,3,4,7,7])
+  # 可以重复添加元素，但不会有效果，因为set本身就会去重
+  set1.add(8)
+  set1.remove(1)
+  print('Now set becomes: ', set1, ' and now becomes list: ', list(set1))
+  # 由于set可以看成数学意义上的无序和无重复元素的集合，因此，两个set可以做数学意义上的交集、并集等操作
+  set2 = set([2, 3, 4])
+  set3 = set([2, 3, 4, 10])
+  print('交集为：', set2 & set3)
+  print('并集为：', set2 | set3)
+elif userInput == 'str':
+  str = 'Tracy'
+  temp = str.replace('T', 't')
+  print('Gonna replace from Tracy to Skr2：', temp, ', but the origin str still not change：', str, '原因是：字符串是不可变对象。')
+elif userInput == 'sys':
+  print('用于计算绝对值的系统方法：', abs(-11))
+  print('用于计算最小值的系统方法：', min(1, 3, 5))
+  print('用于计算最大值的系统方法：', max([2, 4, 6]))
+elif userInput == 'type':
+  # 数据类型转换
+  print('将字符串123强转为int类型:', int('123'))
+  print('将字符串123强转为float类型:', float('123'))
+  print('将浮点型123强转为字符串类型:', str('123.123'))
+  print('将整型123强转为布尔类型:', bool(123))
+elif userInput == 'def':
+  # math.sqrt(2) 还有诸如类似这种方法计算平方根
+  my_abs('123')
+elif userInput == 'move':
+  x, y = move(100, 100, 60, math.pi/6)
+  print('可以有类似js的es6解构赋值一样：', x, y)
+  print('实际上这个方法返回的是什么呢？', move(100, 100, 60, math.pi/6), ' ,Python的函数返回多值其实就是返回一个tuple数据类型！')
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
