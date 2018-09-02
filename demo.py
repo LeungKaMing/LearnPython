@@ -98,6 +98,10 @@ elif userInput == 'list':
   print('Now the line becomes: ', list, ' and its length becomes: ', len(list))
   list.sort()
   print('Gonna sort the line：', list)
+elif userInput == 'list2':
+  # 从索引0开始取，直到索引3为止，但不包括索引3。
+  list = [1, 3, 5, 6, 8, 9]
+  print('切片取数组前三项', list[0:3])
 elif userInput == 'tuple':
   tuple = (['javascript', 'nodejs'], 'python')
   print('Now u have this tuple: ', tuple)
