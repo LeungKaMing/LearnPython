@@ -20,9 +20,52 @@ def move (x, y, step, angle=0):
   ny = y - step * math.sin(angle)
   return nx, ny
 
+def changeable (*num):
+  # 可变参数就是传入的参数个数不定。
+  # 定义可变参数和定义一个list或tuple参数相比，仅仅在参数前面加了一个*号。在函数内部，【参数numbers就会被强制转成tuple类型】，因此，函数代码完全不变。但是，调用该函数时，可以传入任意个参数，包括0个参数。
+  sum = 0
+  for item in num:
+    sum = sum + item * item
+  return sum
+
+def key (name, age, **key):
+  if 'city' in key:
+    pass
+  if 'job' in key:
+    pass
+  print('My name is {0}, my age is {1}, other is {2}'.format(name, age, key))
+  return None
+def key2 (name, age, *, city):
+  print('My name is {0}, my age is {1}, other is {2}'.format(name, age, city))
+
+def feedback (n):
+  if n == 1:
+    return 1
+  return n * feedback(n-1)
+
 userInput = input('请输入：')
 if userInput == 'admin':
   print('欢迎您，管理员！')
+elif userInput == 'changeable':
+  print(changeable(1, 2, 3))
+  # *nums表示把nums这个list的所有元素作为可变参数传进去。
+  # Python允许你用已经存在的list或tuple前面加一个*号，把list或tuple的元素变成可变参数传进去：
+  list = [1, 3, 5]
+  tuple = (2, 4, 6)
+  print(changeable(*list))
+  print(changeable(*tuple))
+elif userInput == 'key':
+  print(key('ljm', 12, city='gx', province='gd'))
+  dict = {
+    'city': 'gz',
+    'province': 'gd'
+  }
+  print(key('ljm', 26, **dict))
+elif userInput == 'key2':
+  # 命名关键字参数：*后的名字是要传入的，输入的不是*后跟的参数名，直接报错
+  print(key2('leung', 23, province='gd', hobby='coding', city='gx'))
+elif userInput == 'feedback':
+  print(feedback(3))
 elif userInput == 'cal':
   # int()函数 能把字符串类型转换成数字类型
   x = input('请输入第一位操作数：')
