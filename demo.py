@@ -100,8 +100,15 @@ elif userInput == 'list':
   print('Gonna sort the line：', list)
 elif userInput == 'list2':
   # 从索引0开始取，直到索引3为止，但不包括索引3。
-  list = [1, 3, 5, 6, 8, 9]
+  list = list(range(100))
+  tuple = tuple(range(100))
+  str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   print('切片取数组前三项', list[0:3])
+  print('切片取数组后三项', list[-3:])
+  print('切片从第10个数开始，每隔2个数取一项', list[50::2])
+  print('切片复制一个列表', list[:])
+  print('tuple也是list的一种，虽然它是不可变的，但是是允许切片操作，结果仍是tuple', tuple[::5])
+  print('字符串也可以看成是list的一种，每个元素就是一个字符，也是是允许切片操作，结果仍是字符串', str[::5])
 elif userInput == 'tuple':
   tuple = (['javascript', 'nodejs'], 'python')
   print('Now u have this tuple: ', tuple)
@@ -215,5 +222,24 @@ elif userInput == 'move':
   x, y = move(100, 100, 60, math.pi/6)
   print('可以有类似js的es6解构赋值一样：', x, y)
   print('实际上这个方法返回的是什么呢？', move(100, 100, 60, math.pi/6), ' ,Python的函数返回多值其实就是返回一个tuple数据类型！')
+elif userInput == 'for':
+  # 数组、对象皆迭代
+  obj = {'name': 'leung', 'age': 26}
+  list = ['javascript', 'nodejs', 'python']
+  tuple = ['js', 'nj', 'py']
+  for key in list:
+    print(key, 'I am from list')
+  for key in tuple:
+    print(key, 'I am from tuple')
+  for item in obj:
+    print('key: {0} and value: {1}'.format(item, obj[item]))
+  # for key in obj.keys():
+  #   print('key from obj: {0}'.format(key))
+  # for value in obj.values():
+  #   print('value from obj: {0}'.format(value))
+  # for ob in obj.items():
+  ## key和value同时变成tuple的一项，归到同一个tuple里 => ('age', 26)
+  #   print(ob)
+  # str
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
