@@ -22,7 +22,7 @@ def move (x, y, step, angle=0):
 
 def changeable (*num):
   # 可变参数就是传入的参数个数不定。
-  # 定义可变参数和定义一个list或tuple参数相比，仅仅在参数前面加了一个*号。在函数内部，【参数numbers就会被强制转成tuple类型】，因此，函数代码完全不变。但是，调用该函数时，可以传入任意个参数，包括0个参数。
+  # 定义可变参数和定义一个list或tuple参数相比，仅仅在参数前面加了一个*号。在函数内部，【参数num就会被强制转成tuple类型】，因此，函数代码完全不变。但是，调用该函数时，可以传入任意个参数，包括0个参数。
   sum = 0
   for item in num:
     sum = sum + item * item
