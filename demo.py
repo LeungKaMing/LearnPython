@@ -1,6 +1,8 @@
 #!/usr/bin/python
 #-*- coding:UTF-8 -*
 import math
+# 模块引入：可以简单看成从 什么地方 引入 什么模块
+from collections import Iterable
 
 def my_abs (x):
   if not isinstance(x, (int, float)):
@@ -240,6 +242,18 @@ elif userInput == 'for':
   # for ob in obj.items():
   ## key和value同时变成tuple的一项，归到同一个tuple里 => ('age', 26)
   #   print(ob)
-  # str
+  str = 'ABCDEFG'
+  for sItem in str:
+    print(sItem, 'I am from str')
+  # 能把列表list用key-value的形式分别输出：索引-值
+  for key,value in enumerate(list):
+    print(key, value)
+  # 得出结论是：凡是可迭代的对象，我们基本都不关心它的数据类型
+  if isinstance(str, Iterable):
+    print('{0}是可迭代的'.format(str))
+  if isinstance(list, Iterable):
+    print('{0}是可迭代的'.format(list))
+  if isinstance(obj, Iterable):
+    print('{0}是可迭代的'.format(obj))
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
