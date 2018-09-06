@@ -1,5 +1,6 @@
 #!/usr/bin/python
 #-*- coding:UTF-8 -*
+import os
 import math
 # 模块引入：可以简单看成从 什么地方 引入 什么模块
 from collections import Iterable
@@ -255,5 +256,28 @@ elif userInput == 'for':
     print('{0}是可迭代的'.format(list))
   if isinstance(obj, Iterable):
     print('{0}是可迭代的'.format(obj))
+elif userInput == 'list3':
+  arr = []
+  # 如何生成[1*1, 2*2, 3*3, 4*4...]的数组
+  # 1)
+  # for num in list(range(1, 11)):
+  #   arr.append(num * num)
+  # print(arr)
+  # 2.1) 一行解决的优雅方式
+  arr = [num*num for num in list(range(1, 11))]
+  print(arr)
+  # 2.2) 筛选出偶数
+  arr2 = [num*num for num in list(range(1, 11)) if num % 2 == 0]
+  print(arr2)
+  # 3) 列出某个目录下的文件和目录
+  arr3 = [d for d in os.listdir('./')]
+  print(arr3)
+  # 4) 同时遍历key和value => obj.items()
+  obj = {'name': 'ljm', 'age': '26'}
+  arr4 = [key + '=' + value for key, value in obj.items()]
+  print(arr4)
+  # 5) 将某个数组的字符串全部变成小写 => 调用字符串方法lower()
+  arr5 = [num.lower() for num in ['Sa', 'Sa', 'Sa']]
+  print(arr5)   
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
