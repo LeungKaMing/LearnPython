@@ -248,7 +248,7 @@ elif userInput == 'for':
     print(sItem, 'I am from str')
   # 能把列表list用key-value的形式分别输出：索引-值
   for key,value in enumerate(list):
-    print(key, value)
+    print('enumerate: ', key, value)
   # 得出结论是：凡是可迭代的对象，我们基本都不关心它的数据类型
   if isinstance(str, Iterable):
     print('{0}是可迭代的'.format(str))
@@ -263,8 +263,8 @@ elif userInput == 'list3':
   # for num in list(range(1, 11)):
   #   arr.append(num * num)
   # print(arr)
-  # 2.1) 一行解决的优雅方式
-  arr = [num*num for num in list(range(1, 11))]
+  # 2.1) 一行解决的优雅方式 => 可以理解成既然是写在数组里面的表达式就不需要list强制转换
+  arr = [num*num for num in range(1, 11)]
   print(arr)
   # 2.2) 筛选出偶数
   arr2 = [num*num for num in list(range(1, 11)) if num % 2 == 0]
@@ -279,5 +279,72 @@ elif userInput == 'list3':
   # 5) 将某个数组的字符串全部变成小写 => 调用字符串方法lower()
   arr5 = [num.lower() for num in ['Sa', 'Sa', 'Sa']]
   print(arr5)   
+elif userInput == 'gene':
+  # 通过列表生成式，我们可以直接创建一个列表。但是，受到内存限制，列表容量肯定是有限的。而且，创建一个包含100万个元素的列表，不仅占用很大的存储空间，如果我们仅仅需要访问前面几个元素，那后面绝大多数元素占用的空间都白白浪费了。
+  # 所以，如果列表元素可以按照某种算法推算出来，那我们是否可以在循环的过程中不断推算出后续的元素呢？这样就不必创建完整的list，从而节省大量的空间。在Python中，这种一边循环一边计算的机制，称为生成器：generator。【它是一种算法！】
+  # 思考：是否可以将机器学习也归为生成器的一种概念？
+  list = [x for x in range(10)]
+  print('通过列表生成式，简单生成一个1~10的数组：', list)
+  gene = (x for x in range(5))
+  print('通过生成的一个1~10数组创建生成器：', gene)
+  # generator保存的是算法，每次调用next(g)，就计算出g的下一个元素的值，直到计算到最后一个元素，没有更多的元素时，抛出StopIteration的错误 => 通过抛出StopIteration的错误，【可以知道生成器generator也是一个可迭代的对象！跟list，dict，str一样！】
+  # print(next(gene))
+  # print(next(gene))
+  # print(next(gene))
+  # print(next(gene))
+  # print(next(gene))
+  # print(next(gene))
+  # 。。。太累赘了，所以，我们创建了一个generator后，基本上永远不会调用next()，而是通过for循环来迭代它，并且不需要关心StopIteration的错误。
+  collect = [x for x in gene]
+  print('将列表生成式与生成器结合来输出：', collect)
+  print('以下看看著名的斐波拉契数列（Fibonacci），除第一个和第二个数外，任意一个数都可由前两个数相加得到：1, 1, 2, 3, 5, 8, 13, 21, 34, ...')
+  def fib(max):
+    # 有点js解构赋值的味道
+    index, a, b = 0, 0, 1
+    while index < max:
+      # 1) a = 0 <=【b = 1】 
+      # 2) a = 1 <=【b = 1】 
+      # 3) a = 1 <=【b = 2】 <--- 这里开始，任意一个数都可由前两个数相加得到
+      # 4) a = 2 <=【b = 3】 
+      # 5) a = 3 <=【b = 5】
+      # 6) a = 5 <=【b = 8】
+      print(b)
+      a, b = b, a + b
+      index = index + 1
+    return 'bye'
+  print('改造成生成器前，是一个普通函数：', fib(10))
+  # 那么如何将上述函数转换为生成器generator呢？跟js又有交集了！
+  # 如果一个函数定义中包含yield关键字，那么这个函数就不再是一个普通函数，而是一个生成器generator。
+  # 你也可以将yield理解为print
+  def geneFib(max):
+    # 有点js解构赋值的味道
+    index, a, b = 0, 0, 1
+    while index < max:
+      # 1) a = 0 <=【b = 1】 
+      # 2) a = 1 <=【b = 1】 
+      # 3) a = 1 <=【b = 2】 <--- 这里开始，任意一个数都可由前两个数相加得到
+      # 4) a = 2 <=【b = 3】 
+      # 5) a = 3 <=【b = 5】
+      # 6) a = 5 <=【b = 8】
+      yield b
+      a, b = b, a + b
+      index = index + 1
+    return 'bye'
+  collect2 = [x for x in geneFib(10)]
+  print('改造成生成器后，是一个可迭代的生成器函数：', collect2)
+  # 函数是顺序执行，遇到return语句或者最后一行函数语句就直接返回，再次调用也会在return的位置返回；而变成generator的函数，每次调用next()后，遇到yield语句就直接返回，再次执行时从上次返回的yield语句处继续执行 => yield有等待并保存上次返回的作用，跟js一样
+  def odd():
+    print('step 1')
+    yield 1
+    print('step 2')
+    yield(3)
+    print('step 3')
+    yield(5)
+    return 'bye'
+  o = odd()
+  print('改造成带有多个yield的生成器后，证明yield带有“断点续传”的意味：')
+  print(next(o))  # 1
+  print(next(o))  # 3
+  print(next(o))  # 5
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
