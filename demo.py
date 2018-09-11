@@ -381,10 +381,27 @@ elif userInput == 'tri':
         if len(arr) == 10:
           break
     return arr
+  # 执行生成器
   t = tri()
-  for tri in t:
-    print(tri)
-  # res = [tri for tri in t]
-  # print(res)
+  for tItem in t:
+    print(tItem)
+elif userInput == 'tri2':
+  arr = [1]
+  def tri2():
+    global arr
+    while True:
+      yield arr
+      if len(arr) == 1:
+        arr.append(1)
+      else:
+        m = [arr[num] + arr[num-1] for num in range(len(arr)) if num > 0]
+        arr = [1] + m + [1] # 数组的一种写法：合并
+        if len(arr) == 10:
+          break
+    return arr
+  # 执行生成器
+  t = tri2()
+  for tItem in t:
+    print(tItem)
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))

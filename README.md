@@ -57,3 +57,7 @@ next(g)
 next(g)
 # 结论：函数是顺序执行，遇到return语句或者最后一行函数语句就直接返回，再次调用也会在return的位置返回；而变成generator的函数，每次调用next()后，遇到yield语句就直接返回，再次执行时从上次返回的yield语句处继续执行 => yield有等待并保存上次返回的作用，跟js一样
 ```
+8. 迭代器
+> 通过上述，我们可以知道，适用于for...in...循环的数据类型有以下几种：
+- 集合数据集类型，如list、tuple、set、dict、str
+- 生成器generator
