@@ -346,5 +346,45 @@ elif userInput == 'gene':
   print(next(o))  # 1
   print(next(o))  # 3
   print(next(o))  # 5
+elif userInput == 'tri':
+  # 杨辉三角
+  # 期待输出:
+  # [1]
+  # [1, 1]
+  # [1, 2, 1]
+  # [1, 3, 3, 1]
+  # [1, 4, 6, 4, 1]
+  # [1, 5, 10, 10, 5, 1]
+  # [1, 6, 15, 20, 15, 6, 1]
+  # [1, 7, 21, 35, 35, 21, 7, 1]
+  # [1, 8, 28, 56, 70, 56, 28, 8, 1]
+  # [1, 9, 36, 84, 126, 126, 84, 36, 9, 1]
+  # 每个数组的第一项和最后一项都是1
+  # # 除第一次外，[1] + arr[0] + arr[1] + ... + [1]
+  # [1] + arr[0] + arr[1] + [1] => [1, 1+1 , 1]
+  # [1] + (arr[0] + arr[1]) + (arr[1] + arr[2]) + [1] => [1, 1+2, 2+1 , 1]
+  # [1] + (arr[0] + arr[1]) + (arr[1] + arr[2]) + (arr[2] + arr[3]) + [1] => [1, 1+3, 3+3, 3+1 , 1]
+  arr = [1]
+  def tri():
+    global arr
+    while True:
+      yield arr
+      if len(arr) == 1:
+        arr.append(1)
+      else:
+        temp = arr
+        arr = [1]
+        for num in list(range(len(temp))):
+          if num > 0:
+            arr.append(temp[num - 1] + temp[num])
+        arr.append(1)
+        if len(arr) == 10:
+          break
+    return arr
+  t = tri()
+  for tri in t:
+    print(tri)
+  # res = [tri for tri in t]
+  # print(res)
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
