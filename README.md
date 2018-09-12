@@ -61,3 +61,51 @@ next(g)
 > 通过上述，我们可以知道，适用于for...in...循环的数据类型有以下几种：
 - 集合数据集类型，如list、tuple、set、dict、str
 - 生成器generator
+这些可以直接作用于for循环的对象统称为可迭代对象：Iterable。
+```
+from collections import Iterable
+# 常用内置函数isinstance()判断一个对象是否为可迭代对象Iterable
+>>> isinstance([], Iterable) # 数组
+True
+>>> isinstance({}, Iterable) # 对象
+True
+>>> isinstance('abc', Iterable) # 字符串
+True
+>>> isinstance([x for x in range(10)], Iterable) # 列表生成式
+True
+>>> isinstance((x for x in range(10)), Iterable) # 生成器
+True
+>>> isinstance(100, Iterable) # 数字类型并不是可迭代对象
+False
+
+# 可以被next()函数调用并不断返回下一个值的对象称为迭代器：Iterator
+# 1. 生成器可以被next()不断调用，所以生成器是一个Iterator迭代器；并且生成器也是一个可以被isinstance()判断出的可迭代对象。
+# 2. 生成器既是Iterator迭代器，又是Iterable可迭代对象；list、dict、str虽然是Iterable可迭代对象，但却不是Iterator迭代器 => 简单来说，能被next()调用的，又能能被for...in...遍历肯定既是迭代器，又是可迭代对象；不能被next()调用，但能被for...in...遍历的只能是可迭代对象
+# 3. 把list、dict、str等Iterable变成Iterator可以使用iter()函数：
+from collections import Iterator # 迭代器
+isinstance(iter([]), Iterator)  # True
+isinstance(iter({}), Iterator)  # True
+isinstance(iter('abc'), Iterator)  # True
+
+# 你可能会问，为什么list、dict、str等数据类型不是Iterator迭代器？
+# 简单来说，因为Iterator迭代器可以看成是一个我们【不能知道长度】的有序序列，list, dict, str我们都可以通过肉眼能看出长度。
+# Iterator甚至可以表示一个无限大的数据流，例如全体自然数。而使用list是永远不可能存储全体自然数的。
+
+# Python的for循环本质上就是通过不断调用next()函数实现的，例如：
+for x in [1, 2, 3, 4, 5]:
+    pass
+
+# 实际上完全等价于：
+
+# 首先将 非迭代器对象 通过iter方法转换成 迭代器对象:
+it = iter([1, 2, 3, 4, 5])
+# 循环:
+while True:
+    try:
+        # 获得下一个值:
+        x = next(it)
+    except StopIteration:
+        # 遇到StopIteration就退出循环
+        break
+```
+注意！搞清楚import Iterable 和 import Iterator 是两码事，一个是引入可迭代对象判断，一个是引入迭代器判断
