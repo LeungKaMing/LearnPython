@@ -4,6 +4,7 @@ import os
 import math
 # 模块引入：可以简单看成从 什么地方 引入 什么模块
 from collections import Iterable
+from functools import reduce
 
 def my_abs (x):
   if not isinstance(x, (int, float)):
@@ -276,7 +277,7 @@ elif userInput == 'list3':
   obj = {'name': 'ljm', 'age': '26'}
   arr4 = [key + '=' + value for key, value in obj.items()]
   print(arr4)
-  # 5) 将某个数组的字符串全部变成小写 => 调用字符串方法lower()
+  # 5) 将某个数组的字符串全部变成小写 => 调用字符串方法lower();将某个数组的字符串全部变成大写 => upper()
   arr5 = [num.lower() for num in ['Sa', 'Sa', 'Sa']]
   print(arr5)   
 elif userInput == 'gene':
@@ -403,5 +404,34 @@ elif userInput == 'tri2':
   t = tri2()
   for tItem in t:
     print(tItem)
+elif userInput == 'hoc':
+  def demo(x, y, f):
+    return f(x) + f(y)
+  print(demo(1, 2, abs))
+  
+  # 内置函数map / reduce => 类似js的lodash写法
+  def f(x):
+    return x * x
+  result = map(f, [1, 2, 3, 4, 5, 6])
+  # <map object at 0x7f31b11d92e8> => 这是一个迭代器，可以通过next来遍历输出 / for...in...
+  # 1. next每次调用迭代器
+  # print(next(result)) # 1
+  # print(next(result)) # 4
+  # print(next(result)) # 9
+  # 2. 遍历迭代器
+  # for r in result:
+  #   print(r)
+  # 3. 强转换为list类型
+  print(list(result))
+
+  # reduce函数就是将一个list的前后两项都放在函数处理，常用来求乘积
+  def f2(x, y):
+    return x * y
+  result2 = reduce(f2, [1, 2, 3, 4, 5, 6])
+  print(result2)
+
+  # sum函数常用来求叠加
+  result3 = sum([1, 2, 3, 4, 5, 6])
+  print(result3)
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
