@@ -422,16 +422,40 @@ elif userInput == 'hoc':
   # for r in result:
   #   print(r)
   # 3. 强转换为list类型
-  print(list(result))
+  print('result: ', list(result))
 
   # reduce函数就是将一个list的前后两项都放在函数处理，常用来求乘积
   def f2(x, y):
     return x * y
   result2 = reduce(f2, [1, 2, 3, 4, 5, 6])
-  print(result2)
+  print('result2: ', result2)
 
   # sum函数常用来求叠加
   result3 = sum([1, 2, 3, 4, 5, 6])
-  print(result3)
+  print('result3: ', result3)
+
+  # # map函数还可以用来遍历字符串 => '1', '3', '5'...
+  def demo(str):
+    # lambda代替，相当于匿名函数
+    # def compare(x, y):
+    #   return x * y
+    # 字典
+    dict = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8}
+    # 遍历字符串的生成器
+    gene = (s for s in str)
+    # 只过滤在字典能找到的元素，并且将元素转换成整数
+    # if dict.get(num)
+    list = [int(num) for num in gene if num in dict]
+    result = reduce(lambda x,y: x*y, list)
+    return result
+  print(demo('13579'))
+elif userInput == 'hoc2':
+  # 凡是这种对某个索引位置进行操作的场景，都要用到切片[1:2:3]
+  # 切片回顾：第一个冒号前代表开始索引，第一个冒号后代表结束索引，第三个冒号代表每隔多少位取一次
+  def normalize(name):
+    return name[0].upper() + name[1:]
+  L1 = ['adam', 'json', 'leung']
+  L2 = list(map(normalize, L1))
+  print(L2)
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
