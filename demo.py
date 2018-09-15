@@ -404,7 +404,7 @@ elif userInput == 'tri2':
   t = tri2()
   for tItem in t:
     print(tItem)
-elif userInput == 'hoc':
+elif userInput == 'hoc1-1':
   def demo(x, y, f):
     return f(x) + f(y)
   print(demo(1, 2, abs))
@@ -449,7 +449,7 @@ elif userInput == 'hoc':
     result = reduce(lambda x,y: x*y, list)
     return result
   print(demo('13579'))
-elif userInput == 'hoc2':
+elif userInput == 'hoc1-2':
   # 凡是这种对某个索引位置进行操作的场景，都要用到切片[1:2:3]
   # 切片回顾：第一个冒号前代表开始索引，第一个冒号后代表结束索引，第三个冒号代表每隔多少位取一次
   def normalize(name):
@@ -457,5 +457,54 @@ elif userInput == 'hoc2':
   L1 = ['adam', 'json', 'leung']
   L2 = list(map(normalize, L1))
   print(L2)
+
+  L3 = reduce(lambda x,y: x*y, [1, 2, 3, 4, 5])
+  print(L3)
+
+  def str2float(s):
+    if isinstance(s, str):
+      return float(s)
+  L4 = str2float('123.456')
+  print(L4)
+elif userInput == 'hoc2-1':
+  # filter也是Python的内置函数，用于过滤数组
+  # 传参方式跟map一样，和map不同的是，传入的函数将作用于每个元素，然后根据返回值是True还是False决定过滤元素与否，最后生成一个新的数组！
+  # filter返回值<filter object at 0x7f7e9273bac8>，与map一样都是生成器Iterator => next()处理 / for...in...处理 / list()强制转换为list类型
+  def odd(num):
+    return num % 2 == 0
+  L1 = filter(odd, list(range(10)))
+  # print('偶数的有：', L1) # <filter object at 0x7f7e9273bac8>
+  print('偶数的有：', list(L1))
+
+  # strip也是python内置的内置函数，用于去除空白字符
+  def notEmpty(s):
+    # and 相当于js的&&, or 相当于js的||
+    if isinstance(s, str):
+      return s and s.strip()
+  L2 = list(filter(notEmpty, ['A', ' ', 'C', None, 'D', '', 'E']))
+  print('去除空白字符后为：', L2)
+elif userInput == 'pure':
+  # 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...
+  # 取序列的第一个数2，它一定是素数，然后用2把序列的2的倍数筛掉：
+  # 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...
+  # 取新序列的第一个数3，它一定是素数，然后用3把序列的3的倍数筛掉：
+  # 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...
+  # 取新序列的第一个数5，然后用5把序列的5的倍数筛掉：
+  # 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...
+  # 不断筛下去，就可以得到所有的素数。
+  def pure(arr):
+    while True:
+      yield arr
+      first = arr[0]
+      second = arr[1:]
+      for num in second:
+        arr = list(filter(lambda x: x % first != 0, arr))
+      # 跳出死循环的条件
+      if len(arr) == 1:
+        print('arr长度为1: ', arr)
+        break
+  result = pure(list(range(2, 100)))
+  for r in result:
+    print(r)
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
