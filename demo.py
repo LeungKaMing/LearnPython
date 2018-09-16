@@ -506,5 +506,17 @@ elif userInput == 'pure':
   result = pure(list(range(2, 100)))
   for r in result:
     print(r)
+elif userInput == 'repeat':
+  def demo(num):
+    num = str(num)
+    arr = list(range(len(num))) # 由于数字类型是没法获取索引的，所以先将其强转为字符串类型，然后根据字符串的长度进行遍历
+    count = 0
+    for n in arr:
+      # 第一位数字跟最后一位数字进行比较，第二位跟倒数第二位进行比较，以此类推
+      if num[n] == num[-(n+1)]:
+        count = count + 1
+        if count == len(arr):
+          return num
+  print(list(filter(demo, list(range(30000)))))
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
