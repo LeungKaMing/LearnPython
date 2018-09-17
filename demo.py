@@ -517,6 +517,125 @@ elif userInput == 'repeat':
         count = count + 1
         if count == len(arr):
           return num
+  # 你可以把filter换成map，就会知道filter是惰性计算，没有return结果的不会返回；而map则是没有return结果也会返回None
   print(list(filter(demo, list(range(30000)))))
+elif userInput == 'hoc3-1':
+  # sorted是Python内置函数，用于排序
+  result = sorted([3, 1, 0, -2, 4, 0])
+  print('排序：', result)
+  # key指定的函数将作用于数组的每一个元素上，并根据key函数返回的结果进行排序
+  result2 = sorted([3, 1, 0, -2, 4, 0], key=abs)
+  print('按绝对值来排序：', result2)
+  # str.lower是Python内置的转换小写的函数
+  result3  = sorted(['Joe', 'JoM', 'AJoEE', 'EKK', 'bbA', ], key=str.lower)
+  print('按绝对值来排序：', result3 )
+  # 反向排序，需传入第三个参数reverse=True
+  result4  = sorted(['Joe', 'JoM', 'AJoEE', 'EKK', 'bbA', ], key=str.upper, reverse=True)
+  print('按绝对值来排序：', result4 )
+elif userInput == 'hoc3-2':
+  def demo(arr):
+    return arr[0]
+  def demo2(arr):
+    return arr[1]
+  result = sorted([('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)], key=demo)
+  result2 = sorted([('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)], key=demo2, reverse=True)
+  print('按姓名来排列：', result)
+  print('按分数高到低来排列：', result2)
+elif userInput == 'hoc4-1':
+  # 传入一个数组，返回一个能够运算求和的函数 => 高阶函数hoc的体现
+  def sum(*arr):
+    def result():
+      total = 0
+      for item in arr: # 内部result函数调用外部sum的参数，体现出【闭包】
+        total = total + item
+      return total
+    return result
+  r = sum(1, 2, 3, 4, 5, 6) # <function sum.<locals>.result at 0x7f4473d252f0>
+  # print(r)
+  print(r())
+  r1 = sum(1, 2, 3, 4, 5, 6)
+  r2 = sum(1, 2, 3, 4, 5, 6)
+  print(r1 == r2) # 虽然就算传参和结果都一样，但由于每次调用都会产生一个新的堆栈，所以互不相等
+elif userInput == 'hoc4-2':
+  def count():
+    fs = []
+    for num in list(range(1, 4)):
+      def demo():
+        return num * num
+      fs.append(demo)
+    return fs
+  # 类似es6的数组解构
+  f1, f2, f3 = count()
+  print(f1()) # 9
+  print(f2()) # 9
+  print(f3()) # 9
+  # 上述情况正是由于跟js一样，没有用let来做循环，而是用了var，导致遍历传入的参数是以最后一位数为准 => 改造成闭包
+  # 返回函数时，不要引用任何循环变量 或者 后续会发生变化的变量！
+  def count2():
+    def wraper(i):
+      # def demo():
+      #   return i * i
+      # 用下面匿名函数实现
+      return lambda: i*i
+    fs = []
+    for num in list(range(1, 4)):
+      fs.append(wraper(num)) # 可以看出这里是跟上面写法不同的地方：用一个包装函数把循环变量存起来，再让返回函数使用，这样就保证了参数不会变！
+    return fs
+  f1, f2, f3 = count2()
+  print(f1()) # 1
+  print(f2()) # 4
+  print(f3()) # 9
+elif userInput == 'hoc4-3':
+  # 需求：每次调用都返回递增函数 
+  # => 生成器
+  # def makeCounter():
+  #   sum = 1
+  #   while True:
+  #     yield sum
+  #     sum = sum + 1
+  #     if (sum == 10):
+  #       break
+  # r = makeCounter()
+  # print(next(r))
+  # print(next(r))
+  # print([x for x in makeCounter()])
+
+  # => 闭包hoc
+  # arr.append(demo(x)) => 这样就只会立马执行，并不满足我们的延迟执行，返回闭包函数的初衷
+  # arr.append(wraper(x)), def wraper(x): def demo: return x return demo => 为了延迟执行并且带参，必须要有包装函数进行中间传递 
+  def makeCounter2():
+    arr = []
+    for x in list(range(1, 4)):
+      def wraper(x):
+        def demo():
+          return x
+        return demo
+      arr.append(wraper(x))
+    return arr
+  f1, f2, f3 = makeCounter2()
+  print(f1()) # 1
+  print(f2()) # 2
+  print(f3()) # 3
+elif userInput == 'anoymous':
+  # 1. 匿名函数有个限制，就是只能有一个表达式，不用写return，返回值就是该表达式的结果。
+  # 2. 用匿名函数有个好处，因为函数没有名字，不必担心函数名冲突。此外，匿名函数也是一个函数对象，也可以把匿名函数赋值给一个变量，再利用变量来调用该函数
+  result = map(lambda x: x*x, [1, 2, 3, 4, 5, 6])
+  print(list(result))
+  
+  result2 = lambda x: x
+  print(result2(6))
+  
+  def anoymous():
+    arr = []
+    for num in list(range(1, 4)):
+      def demo():
+        return lambda num: 2 + num * num
+      arr.append(demo())
+    return arr
+  result3 = anoymous()
+  r1, r2, r3 = result3
+  print(r1(1)) # 3
+  print(r2(2)) # 6
+  print(r3(3)) # 11
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
