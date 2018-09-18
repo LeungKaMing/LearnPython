@@ -637,5 +637,44 @@ elif userInput == 'anoymous':
   print(r1(1)) # 3
   print(r2(2)) # 6
   print(r3(3)) # 11
+elif userInput == '@':
+  # 函数对象有一个公共属性__name__，用于获取当前函数名字 => func.__name__
+  # “装饰器”（Decorator）：在代码运行期间动态增加功能的方式。 => 本质上就是一个返回函数的hoc高阶函数
+  # 1. 装饰器不带参
+  def log(func):
+    def wraper(*args, **kw):
+      # wraper正是装饰器的核心部分 <<<<<<<<<<<<<<<<<<<
+      # *args - 列表/元组；**kw - 对象
+      print('函数名是：{0}'.format(func.__name__))
+      print('参数是：', args, kw) # (1, 2, 3) {'age': 26, 'name': 'leung'}
+      return func(*args, **kw) # 强制转换为可选参数 和 关键参数原封不动丢回去
+    return wraper
+
+  # 相当于now = log(now)，现在的now就不是返回原来内容了，而是返回装饰器返回的内容
+  @log
+  def now(*args, **kw):
+    return {
+      'arr': [num for num in args],
+      'dict': kw
+    }
+  r = now(1, 2, 3, **{'name': 'leung'}, age=26) # review：第一个可选参数 => 可通过*[] / *() 将列表/元组强制转换 / 以相应格式传入1, 2, 3...；第二个关键参数 => 可通过**{} 将对象强制转换 / 以相应格式传入name='leung', age='25'
+  print('log装饰器处理后的now函数结果为：', r)
+
+  # 2. 装饰器带参
+  def log2(text):
+    def decorator(func):
+      def wrapper(*args):
+        print('传入的函数名：', func.__name__)
+        print('装饰器传入的参数：', text)
+        return func(args)
+      return wrapper
+    return decorator
+  
+  # 相当于now2 = log2('hello world')(now2)
+  @log2('hello world')
+  def now2(arr):
+    arr = [num * num for num in arr]
+    return list(arr)
+  print(now2(1, 2, 3, 4, 5), '<<<<<<<<<<2')
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
