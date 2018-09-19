@@ -675,6 +675,21 @@ elif userInput == '@':
   def now2(arr):
     arr = [num * num for num in arr]
     return list(arr)
-  print(now2(1, 2, 3, 4, 5), '<<<<<<<<<<2')
+  print(now2(1, 2, 3, 4, 5), '<<<<<<<<<<3')
+elif userInput == 'likeFunc':
+  import functools
+  # 用法：functools.partial(系统内置函数 / 自定义函数, 第一个传入前面函数的参数【外面调用的时候再传入参数，则要求前面的函数必须要是 默认参数*args】)
+  int2 = functools.partial(int, base=2)
+  print('int类型转换：', int2('1000000'))
+
+  def demo(num):
+    return num
+  demo = functools.partial(demo, 10)
+  print('传入单个参数：', demo())
+
+  def demo2(*list):
+    return [num for num in list]
+  demo2 = functools.partial(demo2, 10)
+  print('传入多个参数作为默认参数：', demo2(3, 4, 5, 6))
 else:
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
