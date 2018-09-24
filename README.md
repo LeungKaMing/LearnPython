@@ -118,3 +118,12 @@ def demo(x, y, f):
 
 demo(1, 2, demo)
 ```
+## 如何安装第三方模块
+> 通过pip这个包管理工具完成的；python3.5对应的是pip3。
+假设现在需要安装一个第三方库——Python Imaging Library，这是Python下非常强大的处理图像的工具库。
+> 一般来说，第三方库都会在Python官方的pypi.python.org网站注册，要安装一个第三方库，必须先知道该库的名称，可以在官网或者pypi上搜索，比如Pillow的名称叫Pillow => 类似NodeJS包都在npmjs.com注册一样。
+- 默认情况下，Python解释器会搜索当前目录、所有已安装的内置模块和第三方模块，搜索路径存放在sys模块的path变量中：
+```
+import sys
+print(sys.path) # ['/media/leung/DATA/Python/LearnPython', '/usr/local/lib/python35.zip', '/usr/local/lib/python3.5', '/usr/local/lib/python3.5/plat-linux', '/usr/local/lib/python3.5/lib-dynload', '/usr/local/lib/python3.5/site-packages']
+```

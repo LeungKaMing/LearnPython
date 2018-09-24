@@ -692,4 +692,6 @@ elif userInput == 'likeFunc':
   demo2 = functools.partial(demo2, 10)
   print('传入多个参数作为默认参数：', demo2(3, 4, 5, 6))
 else:
+  import sys
+  print(sys.path)
   print('尊敬的用户您好，您所输入的{0}并不匹配条件，输入字符串的长度为{1}'.format(userInput, len(userInput)))
