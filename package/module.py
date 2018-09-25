@@ -3,6 +3,10 @@
 # module模块 => package.module模块
 import sys
 __author__ = 'Leung' # 特殊变量，我们自己的变量一般不要用这种变量名
+
+def __private():
+    print('I am private')
+
 def hello():
     # argv变量：用list存储了命令行的所有参数。argv至少有一个元素，因为第一个参数永远是该.py文件的名称
     args = sys.argv
