@@ -694,9 +694,9 @@ elif userInput == 'likeFunc':
 elif userInput == 'ta':
   def move(n, a, b, c):
     if n==1:
-      print(a,'-->',c)
-      return
+      print(a,'-->',c, '其他参数是:',b) # 假设只有一个圆盘的情况，直接就是从a到c
     else:
+      # 多个圆盘的情况下，将所有圆盘拆分成第一个圆盘和其他圆盘
       move(n-1,a,c,b)  #首先需要把 (N-1) 个圆盘移动到 b
       move(1,a,b,c)    #将a的最后一个圆盘移动到c
       move(n-1,b,a,c)  #再将b的(N-1)个圆盘移动到c
